@@ -1,5 +1,6 @@
 package com.example.Bookstore.web;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,25 @@ public class BookController {
 	@Autowired
 	private CategoryRepository crepository;
 	
+	//curl http://localhost:8080/api
+	//curl http://localhost:8080/api/categories
+	//curl -H "Content-Type: application/json" -X POST -d '{"title":"Paddington","author":"Bond"}' http://localhost:8080/api/books
+	//curl -X PUT http://localhost:8080/api/books/5 -H 'Content-type:application/json' -d '{"title":"Vares"}'
+	
 	@RequestMapping(value= "/booklist")
 	public String bookList(Model model) {
 		model.addAttribute("books", repository.findAll());
 		return "booklist";
+	}
+	
+	@RequestMapping(value= "/books", method = RequestMethod.GET)
+	public @ResponseBody List<Book> bookListRest() {
+		return (List<Book>) repository.findAll();
+	}
+	
+	@RequestMapping(value= "/book/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long bookId) {
+		return repository.findById(bookId);
 	}
 	
 	@RequestMapping(value= "/add")
