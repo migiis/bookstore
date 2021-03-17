@@ -23,6 +23,7 @@ public class BookstoreApplication {
 	public CommandLineRunner demo(BookRepository repository, CategoryRepository crepository, UserRepository urepository) {
 		return (args) -> {
 			
+			crepository.deleteAll();
 			crepository.save(new Category("Drama"));
 			crepository.save(new Category("Crime"));
 			crepository.save(new Category("Children's"));
